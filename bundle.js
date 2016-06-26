@@ -62,7 +62,8 @@
 	
 	var register = _createLoop.register;
 	
-	var drawer = new _drawer2.default(document.getElementById('wrapper'));
+	var wrapper = document.getElementById('wrapper');
+	var drawer = new _drawer2.default(wrapper);
 	var info = new _info_box2.default(document.querySelector('.info'));
 	setTimeout(function () {
 	  return info.show();
@@ -134,7 +135,7 @@
 	  var onClick = function onClick(e) {
 	    return drawCurves([e.offsetX, e.offsetY]);
 	  };
-	  document.addEventListener('click', onClick);
+	  drawer.canvas.addEventListener('click', onClick);
 	}
 	
 	setTimeout(main, 1000);

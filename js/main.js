@@ -6,7 +6,8 @@ import { createLoop } from 'loop';
 
 
 const { register } = createLoop();
-const drawer = new Drawer(document.getElementById('wrapper'));
+const wrapper = document.getElementById('wrapper');
+const drawer = new Drawer(wrapper);
 const info = new InfoBox(document.querySelector('.info'));
 setTimeout(() => info.show(), 500);
 
@@ -70,7 +71,7 @@ function main() {
   const origin = [random(window.innerWidth), random(window.innerHeight)];
   drawCurves(origin);
   const onClick = (e) => drawCurves([e.offsetX, e.offsetY]);
-  document.addEventListener('click', onClick);
+  drawer.canvas.addEventListener('click', onClick);
 }
 
 setTimeout(main, 1000);
