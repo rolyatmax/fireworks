@@ -40,7 +40,8 @@ function generateCurve(ptA, ptB, ptC) {
 function drawCurve(pts, hue) {
   const duration = random(1500, 4000);
   const color = `hsla(${hue}, 75%, ${random(45) + 55}%, 0.005)`;
-  drawer.arc(pts, duration, color, 2);
+  const lineWidth = Math.random() * 2 + 1 | 0;
+  drawer.arc(pts, duration, color, lineWidth);
 }
 
 function drawCurves(origin) {
