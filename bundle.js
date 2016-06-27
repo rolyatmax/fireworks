@@ -129,8 +129,6 @@
 	function start() {
 	  drawer = new _drawer2.default(document.getElementById('wrapper'));
 	  drawer.ctx.globalCompositeOperation = 'lighten';
-	  drawer.ctx.fillStyle = 'rgb(40, 40, 40)';
-	  drawer.ctx.fillRect(0, 0, window.innerWidth * 2, window.innerHeight * 2);
 	  var origin = [random(window.innerWidth), random(window.innerHeight)];
 	  drawCurves(origin);
 	  document.addEventListener('click', function (e) {
