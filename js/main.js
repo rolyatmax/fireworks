@@ -39,8 +39,8 @@ function generateCurve(ptA, ptB, ptC) {
 
 function drawCurve(pts, hue) {
   const duration = random(1500, 4000);
-  const color = `hsla(${hue}, 75%, ${random(50) + 60}%, 0.01)`;
-  drawer.arc(pts, duration, color);
+  const color = `hsla(${hue}, 75%, ${random(45) + 55}%, 0.005)`;
+  drawer.arc(pts, duration, color, 2);
 }
 
 function drawCurves(origin) {
@@ -65,6 +65,7 @@ function drawCurves(origin) {
 function start() {
   drawer = new Drawer(document.getElementById('wrapper'));
   drawer.ctx.globalCompositeOperation = 'lighten';
+  drawer.ctx.lineCap = 'round';
   const origin = [random(window.innerWidth), random(window.innerHeight)];
   drawCurves(origin);
   document.addEventListener('click', (e) => {

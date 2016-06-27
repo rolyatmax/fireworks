@@ -101,8 +101,8 @@
 	
 	function drawCurve(pts, hue) {
 	  var duration = random(1500, 4000);
-	  var color = 'hsla(' + hue + ', 75%, ' + (random(50) + 60) + '%, 0.01)';
-	  drawer.arc(pts, duration, color);
+	  var color = 'hsla(' + hue + ', 75%, ' + (random(45) + 55) + '%, 0.005)';
+	  drawer.arc(pts, duration, color, 2);
 	}
 	
 	function drawCurves(origin) {
@@ -129,6 +129,7 @@
 	function start() {
 	  drawer = new _drawer2.default(document.getElementById('wrapper'));
 	  drawer.ctx.globalCompositeOperation = 'lighten';
+	  drawer.ctx.lineCap = 'round';
 	  var origin = [random(window.innerWidth), random(window.innerHeight)];
 	  drawCurves(origin);
 	  document.addEventListener('click', function (e) {
