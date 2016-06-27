@@ -58,12 +58,13 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	var drawer = void 0;
+	var CURVES_DURATION = 9000;
+	
 	var _createLoop = (0, _loop.createLoop)();
 	
 	var register = _createLoop.register;
 	
-	var wrapper = document.getElementById('wrapper');
-	var drawer = new _drawer2.default(wrapper);
 	var info = new _info_box2.default(document.querySelector('.info'));
 	setTimeout(function () {
 	  return info.show();
@@ -99,21 +100,20 @@
 	}
 	
 	function drawCurve(pts, hue) {
-	  var duration = random(2000, 4000);
-	  var color = 'hsla(' + hue + ', 75%, ' + (random(50) + 60) + '%, 0.008)';
+	  var duration = random(1500, 4000);
+	  var color = 'hsla(' + hue + ', 75%, ' + (random(50) + 60) + '%, 0.01)';
 	  drawer.arc(pts, duration, color);
 	}
 	
 	function drawCurves(origin) {
-	  var curveCount = 800; // random(1500, 4000);
-	  var animationDuration = 3000;
+	  var curveCount = 800; // random(400, 800);
 	  var totalCurves = 0;
 	  var dbl = function dbl(i) {
 	    return i * 2;
 	  };
 	  var hue = random(0, 360);
 	  var ptB = [random(window.innerWidth), random(window.innerHeight)];
-	  var curvesToDraw = curveCount / (animationDuration / 16) | 0;
+	  var curvesToDraw = curveCount / (CURVES_DURATION / 16) | 0;
 	  cancelCurCurve();
 	  cancelCurCurve = register(function () {
 	    totalCurves += curvesToDraw;
@@ -126,16 +126,34 @@
 	  });
 	}
 	
-	function main() {
+	function start() {
+	  drawer = new _drawer2.default(document.getElementById('wrapper'));
 	  drawer.ctx.globalCompositeOperation = 'lighten';
 	  drawer.ctx.fillStyle = 'rgb(40, 40, 40)';
 	  drawer.ctx.fillRect(0, 0, window.innerWidth * 2, window.innerHeight * 2);
 	  var origin = [random(window.innerWidth), random(window.innerHeight)];
 	  drawCurves(origin);
-	  var onClick = function onClick(e) {
-	    return drawCurves([e.offsetX, e.offsetY]);
-	  };
-	  drawer.canvas.addEventListener('click', onClick);
+	  document.addEventListener('click', function (e) {
+	    if (e.target.tagName === 'CANVAS') {
+	      drawCurves([e.offsetX, e.offsetY]);
+	    }
+	  });
+	}
+	
+	function main() {
+	  function cycle() {
+	    start();
+	    setTimeout(function () {
+	      var fadeSpeed = 3000;
+	      drawer.canvas.style.transition = 'opacity ' + fadeSpeed + 'ms ease-out';
+	      drawer.canvas.style.opacity = 0;
+	      setTimeout(function () {
+	        drawer.canvas.remove();
+	        cycle();
+	      }, fadeSpeed);
+	    }, CURVES_DURATION);
+	  }
+	  cycle();
 	}
 	
 	setTimeout(main, 1000);

@@ -4,10 +4,9 @@ import InfoBox from './info_box';
 import Drawer from 'drawer';
 import { createLoop } from 'loop';
 
-
+let drawer;
+const CURVES_DURATION = 9000;
 const { register } = createLoop();
-const wrapper = document.getElementById('wrapper');
-const drawer = new Drawer(wrapper);
 const info = new InfoBox(document.querySelector('.info'));
 setTimeout(() => info.show(), 500);
 
@@ -39,19 +38,18 @@ function generateCurve(ptA, ptB, ptC) {
 }
 
 function drawCurve(pts, hue) {
-  const duration = random(2000, 4000);
-  const color = `hsla(${hue}, 75%, ${random(50) + 60}%, 0.008)`;
+  const duration = random(1500, 4000);
+  const color = `hsla(${hue}, 75%, ${random(50) + 60}%, 0.01)`;
   drawer.arc(pts, duration, color);
 }
 
 function drawCurves(origin) {
-  const curveCount = 800; // random(1500, 4000);
-  const animationDuration = 3000;
+  const curveCount = 800; // random(400, 800);
   let totalCurves = 0;
   const dbl = i => i * 2;
   const hue = random(0, 360);
   const ptB = [random(window.innerWidth), random(window.innerHeight)];
-  const curvesToDraw = curveCount / (animationDuration / 16) | 0;
+  const curvesToDraw = curveCount / (CURVES_DURATION / 16) | 0;
   cancelCurCurve();
   cancelCurCurve = register(() => {
     totalCurves += curvesToDraw;
@@ -64,14 +62,35 @@ function drawCurves(origin) {
   });
 }
 
-function main() {
+function start() {
+  drawer = new Drawer(document.getElementById('wrapper'));
   drawer.ctx.globalCompositeOperation = 'lighten';
   drawer.ctx.fillStyle = 'rgb(40, 40, 40)';
   drawer.ctx.fillRect(0, 0, window.innerWidth * 2, window.innerHeight * 2);
   const origin = [random(window.innerWidth), random(window.innerHeight)];
   drawCurves(origin);
-  const onClick = (e) => drawCurves([e.offsetX, e.offsetY]);
-  drawer.canvas.addEventListener('click', onClick);
+  document.addEventListener('click', (e) => {
+    if (e.target.tagName === 'CANVAS') {
+      drawCurves([e.offsetX, e.offsetY]);
+    }
+  });
 }
+
+function main() {
+  function cycle() {
+    start();
+    setTimeout(() => {
+      const fadeSpeed = 3000;
+      drawer.canvas.style.transition = `opacity ${fadeSpeed}ms ease-out`;
+      drawer.canvas.style.opacity = 0;
+      setTimeout(() => {
+        drawer.canvas.remove();
+        cycle();
+      }, fadeSpeed);
+    }, CURVES_DURATION);
+  }
+  cycle();
+}
+
 
 setTimeout(main, 1000);
