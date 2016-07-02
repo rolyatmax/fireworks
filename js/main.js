@@ -1,10 +1,13 @@
 // @flow
 
 import InfoBox from './info_box';
+import SimplexNoise from 'simplex-noise';
 import Drawer from 'drawer';
 import { createLoop } from 'loop';
 
 let drawer;
+const simplex = new SimplexNoise();
+window.simplex = simplex;
 const wrapper = document.getElementById('wrapper');
 const CURVES_DURATION = 10000;
 const { register } = createLoop();
@@ -48,7 +51,7 @@ function drawCurve(pts, hue) {
 function drawCurves(origin) {
   const dbl = i => i * 2;
   const hue = random(0, 360);
-  const ptB = [random(window.innerWidth), random(window.innerHeight)];
+  let ptB = [random(window.innerWidth), random(window.innerHeight)];
   const curvesToDraw = 10;
   const startTs = Date.now();
   cancelCurCurve();
@@ -56,7 +59,10 @@ function drawCurves(origin) {
     let k = curvesToDraw;
     while (k--) {
       const ptC = [random(window.innerWidth), random(window.innerHeight)];
-      drawCurve(generateCurve(origin.map(dbl), ptB.map(dbl), ptC.map(dbl)), hue);
+      const noise = simplex.noise2D(...ptB);
+      ptB = ptB.map(coord => coord + noise * 35);
+      // ptB = [window.innerWidth, window.innerHeight].map((winSize, i) => ptB[i] + winSize / 2);
+      drawCurve(generateCurve(ptC.map(dbl), ptB.map(dbl), origin.map(dbl)), hue);
     }
     return Date.now() < CURVES_DURATION + startTs;
   });
