@@ -1,12 +1,12 @@
-# curves
+# fireworks
 
 made this while thinking about algorithms for creating curves
 
-![curves](/img/img.png?raw=true "curves")
+![fireworks](/img/img.png?raw=true "fireworks")
 
-![curves](/img/img2.png?raw=true "curves")
+![fireworks](/img/img2.png?raw=true "fireworks")
 
-![curves](/img/img3.png?raw=true "curves")
+![fireworks](/img/img3.png?raw=true "fireworks")
 
 ------
 

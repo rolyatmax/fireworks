@@ -59,7 +59,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var drawer = void 0;
-	var CURVES_DURATION = 9000;
+	var wrapper = document.getElementById('wrapper');
+	var CURVES_DURATION = 10000;
 	
 	var _createLoop = (0, _loop.createLoop)();
 	
@@ -100,37 +101,36 @@
 	}
 	
 	function drawCurve(pts, hue) {
-	  var duration = random(1500, 4000);
+	  var duration = random(1500, 2500);
 	  var color = 'hsla(' + hue + ', 75%, ' + (random(45) + 55) + '%, 0.005)';
 	  var lineWidth = Math.random() * 2 + 1 | 0;
 	  drawer.arc(pts, duration, color, lineWidth);
 	}
 	
 	function drawCurves(origin) {
-	  var curveCount = 800; // random(400, 800);
-	  var totalCurves = 0;
 	  var dbl = function dbl(i) {
 	    return i * 2;
 	  };
 	  var hue = random(0, 360);
 	  var ptB = [random(window.innerWidth), random(window.innerHeight)];
-	  var curvesToDraw = curveCount / (CURVES_DURATION / 16) | 0;
+	  var curvesToDraw = 10;
+	  var startTs = Date.now();
 	  cancelCurCurve();
 	  cancelCurCurve = register(function () {
-	    totalCurves += curvesToDraw;
 	    var k = curvesToDraw;
 	    while (k--) {
 	      var ptC = [random(window.innerWidth), random(window.innerHeight)];
 	      drawCurve(generateCurve(origin.map(dbl), ptB.map(dbl), ptC.map(dbl)), hue);
 	    }
-	    return totalCurves < curveCount;
+	    return Date.now() < CURVES_DURATION + startTs;
 	  });
 	}
 	
 	function start() {
-	  drawer = new _drawer2.default(document.getElementById('wrapper'));
-	  drawer.ctx.globalCompositeOperation = 'lighten';
+	  drawer = new _drawer2.default(wrapper);
+	  drawer.ctx.globalCompositeOperation = 'lighter';
 	  drawer.ctx.lineCap = 'round';
+	  drawer.canvas.style.opacity = 0.8;
 	  var origin = [random(window.innerWidth), random(window.innerHeight)];
 	  drawCurves(origin);
 	  document.addEventListener('click', function (e) {
@@ -143,15 +143,15 @@
 	function main() {
 	  function cycle() {
 	    start();
-	    setTimeout(function () {
-	      var fadeSpeed = 3000;
-	      drawer.canvas.style.transition = 'opacity ' + fadeSpeed + 'ms ease-out';
-	      drawer.canvas.style.opacity = 0;
-	      setTimeout(function () {
-	        drawer.canvas.remove();
-	        cycle();
-	      }, fadeSpeed);
-	    }, CURVES_DURATION);
+	    // setTimeout(() => {
+	    //   const fadeSpeed = 3000;
+	    //   drawer.canvas.style.transition = `opacity ${fadeSpeed}ms ease-out`;
+	    //   drawer.canvas.style.opacity = 0;
+	    //   setTimeout(() => {
+	    //     drawer.canvas.remove();
+	    //     cycle();
+	    //   }, fadeSpeed);
+	    // }, CURVES_DURATION);
 	  }
 	  cycle();
 	}

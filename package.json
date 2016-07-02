@@ -1,10 +1,10 @@
 {
-  "name": "curves",
+  "name": "fireworks",
   "version": "1.1.0",
   "main": "js/main.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rolyatmax/curves.git"
+    "url": "git+https://github.com/rolyatmax/fireworks.git"
   },
   "scripts": {
     "build": "webpack",
