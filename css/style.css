@@ -9,6 +9,7 @@ html, body {
     width: calc(100vw - 40px);
     margin: 20px auto;
     background-color: rgb(10, 10, 10);
+    overflow: hidden;
 }
 
 .info {

@@ -29,7 +29,8 @@
     "webpack-dev-server": "1.14.1"
   },
   "dependencies": {
-    "drawer": "git+ssh://git@github.com:rolyatmax/drawer.git",
+    "dat-gui": "^0.5.0",
+    "drawer": "git+ssh://git@github.com:rolyatmax/drawer.git#309bbc5",
     "expect": "1.20.1",
     "loop": "git+ssh://git@github.com:rolyatmax/loop.git",
     "simplex-noise": "2.2.0",
