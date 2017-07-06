@@ -112,7 +112,8 @@ function drawCurves(ptA = null) {
       curA = addNoise(curA, config.pointNoise.a, t);
       curB = addNoise(curB, config.pointNoise.b, t);
       curC = addNoise(curC, config.pointNoise.c, t);
-      drawCurve(generateCurve(curA.map(dbl), curB.map(dbl), curC.map(dbl), config.smoothness), hue);
+      const curve = generateCurve(curA.map(dbl), curB.map(dbl), curC.map(dbl), config.smoothness);
+      drawCurve(curve.map(p => addNoise(p, 35, t)), hue);
     }
     return t < stopT;
   });
